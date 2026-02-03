@@ -43,15 +43,17 @@ end
 
 -- init skill from tactic packages
 local tactic_packages = {}
-pfile = io.popen('./tools/scan_tool tactic_dir')
+pfile = io.popen('python .\\tools\\scan_tool tactic_dir')
 for line in pfile:lines() do
-	table.insert(tactic_packages, line)
+    print("Found Tactic Package:", line)
+    table.insert(tactic_packages, line)
 end
+pfile:close()
 -- print("Tactic Packages : ",table.concat(tactic_packages, ","))
 
 local scan_scripts = function(tactic_dir)
     local t = {}
-    local pfile = io.popen('find "'..tactic_dir..'" -name "*.lua" -type f -print')
+    local pfile = io.popen('dir /s /b "'..tactic_dir..'\\*.lua"')
     for filename in pfile:lines() do
 		table.insert(t, filename)
     end
