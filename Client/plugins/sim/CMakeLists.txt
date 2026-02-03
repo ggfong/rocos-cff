@@ -34,40 +34,8 @@ list(APPEND libs ${ODE_LIBRARIES})
 # add_definitions(-DdDOUBLE)
 
 # Protobuf
-if (WIN32)
-    set(PROTOBUF_INCLUDE_DIRS "${thirdParty}/protobuf/include")
-    set(Protobuf_LIBRARIES "${thirdParty}/protobuf/lib/libprotobuf.lib")
-else()
 find_package(Protobuf REQUIRED)
-endif()
-list(APPEND PROJECT_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIRS})
-list(APPEND libs ${Protobuf_LIBRARIES})
-
-set(PROTO_LIST
-    grSim_Commands
-    grSimMessage
-    grSim_Packet
-    grSim_Replacement
-    log_labeler_data
-    log_labels
-    messages_robocup_ssl_detection
-    messages_robocup_ssl_geometry_legacy
-    messages_robocup_ssl_geometry
-    messages_robocup_ssl_refbox_log
-    messages_robocup_ssl_wrapper_legacy
-    messages_robocup_ssl_wrapper
-    ssl_game_controller_auto_ref
-    ssl_game_controller_common
-    ssl_game_controller_team
-    ssl_game_event_2019
-    ssl_game_event
-    ssl_referee
-    vision_detection
-    zss_cmd
-    zss_debug
-    zss_rec_old
-)
-get_pb_file(PROTO_H PROTO_CPP ${PROTO_LIST})
+list(APPEND libs protobuf::libprotobuf)
 
 list(APPEND PROJECT_INCLUDE_DIRS
     ${CMAKE_BINARY_DIR}
@@ -94,12 +62,11 @@ set(SOURCES
 	sslworld.cpp
 )
 set(srcs
-    ${PROTO_CPP}
-    ${PROTO_H}
     ${HEADERS}
     ${SOURCES}
     ${CPPFILES}
 )
+list(APPEND libs rocos_proto)
 
 set(target_lib zss_simulator)
 
@@ -109,7 +76,7 @@ if(BUILD_PYTHON_PLUGINS)
 	find_package(Cppyy)
 endif()
 
-add_library(${target_lib} SHARED ${srcs})
+add_library(${target_lib} STATIC ${srcs})
 add_dependencies(${target_lib} proto_gen)
 
 set_target_properties(${target_lib} PROPERTIES POSITION_INDEPENDENT_CODE ON)

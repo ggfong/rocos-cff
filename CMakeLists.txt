@@ -10,7 +10,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -pthread")
+if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -pthread")
+else()
+    add_compile_options(/utf-8)
+endif()
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 include(${PROJECT_SOURCE_DIR}/cmake/Utils.cmake)
 standard_config()
@@ -38,18 +42,26 @@ function(get_pb_file H CPP)
 endfunction()
 
 set(PROTO_GEN_FILES)
+set(PROTO_GEN_SOURCES)
 FOREACH(FIL ${PROTO_FILES})
 	GET_FILENAME_COMPONENT(ABS_FIL ${FIL} ABSOLUTE)
 	GET_FILENAME_COMPONENT(FIL_WE ${ABS_FIL} NAME_WE)
-	list(APPEND PROTO_GEN_FILES ${FIL_WE}.pb.h ${FIL_WE}.pb.cc)
+	list(APPEND PROTO_GEN_FILES ${PROTO_META_BASE_DIR}/${FIL_WE}.pb.h ${PROTO_META_BASE_DIR}/${FIL_WE}.pb.cc)
+	list(APPEND PROTO_GEN_SOURCES ${PROTO_META_BASE_DIR}/${FIL_WE}.pb.cc)
 ENDFOREACH()
 
 add_custom_command(
 	OUTPUT ${PROTO_GEN_FILES}
-	COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} ${PROTO_FLAGS} --cpp_out=${PROTO_META_BASE_DIR} ${PROTO_FILES}
+	COMMAND ${Protobuf_PROTOC_EXECUTABLE} ${PROTO_FLAGS} --cpp_out=${PROTO_META_BASE_DIR} ${PROTO_FILES}
 	# WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	DEPENDS ${PROTO_FILES}
 )
+
+add_library(rocos_proto STATIC ${PROTO_GEN_SOURCES})
+set_target_properties(rocos_proto PROPERTIES AUTOMOC OFF AUTORCC OFF)
+target_link_libraries(rocos_proto PUBLIC protobuf::libprotobuf)
+target_include_directories(rocos_proto PUBLIC ${PROTO_META_BASE_DIR})
+
 add_custom_target(
 	proto_gen
 	DEPENDS ${PROTO_GEN_FILES}

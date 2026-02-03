@@ -1,3 +1,4 @@
+.waylog
 *.pdb
 *.user
 # C++ objects and libs
@@ -144,7 +145,6 @@ Client/lib
 zeus_deps_check
 git_stats
 
-3rdParty
 
 __temp__
 

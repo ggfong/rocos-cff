@@ -132,7 +132,7 @@ void CRefereeBoxInterface::receivingLoop() {
             pCmd_temp.goals_yellow = yellow.score();
             pCmd_temp.time_remaining = (unsigned short)(stage_time_left / 1000000);
 
-            GDebugEngine::Instance()->gui_debug_msg(CGeoPoint(0,PARAM::Field::PITCH_WIDTH/2),fmt::format("ref_cmd : {}-{}",command,Referee_Command_Name(command)),COLOR_RED,0,130);
+            GDebugEngine::Instance()->gui_debug_msg(CGeoPoint(0,PARAM::Field::PITCH_WIDTH/2),fmt::format("ref_cmd : {}-{}",static_cast<int>(command),Referee_Command_Name(command)),COLOR_RED,0,130);
             static unsigned char former_cmd_index = 0;
             cmd_index = pCmd_temp.cmd_counter;
             if (cmd_index != former_cmd_index) {

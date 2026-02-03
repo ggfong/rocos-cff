@@ -4,8 +4,7 @@ set(incs)
 # Core - Medusa
 ## Protobuf
 find_package(Protobuf REQUIRED)
-list(APPEND incs ${PROTOBUF_INCLUDE_DIRS})
-list(APPEND libs ${PROTOBUF_LIBRARIES})
+list(APPEND libs protobuf::libprotobuf protobuf::libprotoc)
 ## Qt5
 find_package(Qt5 COMPONENTS Core Qml Quick Network REQUIRED)
 list(APPEND libs Qt5::Core Qt5::Qml Qt5::Quick Qt5::Network)
@@ -15,7 +14,7 @@ list(APPEND incs ${LUA_INCLUDE_DIR})
 list(APPEND libs ${LUA_LIBRARIES})
 ## tolua++
 find_package(toluapp REQUIRED)
-list(APPEND incs ${TOLUAPP_INCLUDE_DIRS})
+list(APPEND incs ${TOLUAPP_INCLUDE_DIR})
 list(APPEND libs ${TOLUAPP_LIBRARIES})
 file(GLOB LUA_MODULE_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/src/LuaModule/*.pkg"
@@ -33,28 +32,6 @@ list(APPEND incs ${EIGEN3_INCLUDE_DIR})
 find_package(fmt REQUIRED)
 list(APPEND incs ${fmt_INCLUDE_DIRS})
 list(APPEND libs fmt::fmt)
-
-set(PROTO_LIST
-    grSim_Commands
-    grSimMessage
-    grSim_Packet
-    grSim_Replacement
-    messages_robocup_ssl_detection
-    messages_robocup_ssl_geometry_legacy
-    messages_robocup_ssl_geometry
-    messages_robocup_ssl_refbox_log
-    messages_robocup_ssl_wrapper_legacy
-    messages_robocup_ssl_wrapper
-    ssl_referee
-    ssl_game_event
-    ssl_game_event_2019
-    ssl_game_controller_common
-    vision_detection
-    zss_cmd
-    zss_debug
-    zss_geometry
-)
-get_pb_file(PROTO_H PROTO_CPP ${PROTO_LIST})
 
 set(PROJECT_INCLUDE_DIRS
     ${incs}
@@ -108,10 +85,9 @@ file(GLOB PROJECT_SOURCE
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/Vision/mediator/net/*.cpp"
 )
 list(APPEND PROJECT_SOURCE
-    ${PROTO_H}
-    ${PROTO_CPP}
     "${CMAKE_CURRENT_BINARY_DIR}/tolua_zeus.cpp"
 )
+list(APPEND libs rocos_proto)
 
 subdir_list(TACTIC_PACKS ${CMAKE_CURRENT_SOURCE_DIR})
 

@@ -11,6 +11,7 @@
 FIND_PATH(TOLUAPP_INCLUDE_DIR tolua++.h
   PATHS
   "$ENV{TOLUAPP}/include"
+  "${CMAKE_SOURCE_DIR}/3rdParty/tolua++/include"
   /usr/local/include
   /usr/include
 	C:/Workspace/Build/tolua++/include
@@ -18,6 +19,7 @@ FIND_PATH(TOLUAPP_INCLUDE_DIR tolua++.h
 FIND_LIBRARY(TOLUAPP_LIBRARIES toluapp tolua++ tolua++5.1
   PATHS
   "$ENV{TOLUAPP}/lib"
+  "${CMAKE_SOURCE_DIR}/3rdParty/tolua++/lib"
   /usr/local/lib
   /usr/lib
 	C:/Workspace/Build/tolua++/lib
@@ -27,6 +29,7 @@ FIND_LIBRARY(TOLUAPP_LIBRARIES toluapp tolua++ tolua++5.1
 FIND_PROGRAM(TOLUAPP_EXECUTABLE tolua++ toluapp tolua++5.1
   PATHS
   "$ENV{TOLUAPP}/bin"
+  "${CMAKE_SOURCE_DIR}/3rdParty/tolua++/bin"
   /usr/local/bin
   /usr/bin
   C:/Workspace/Build/tolua++/bin

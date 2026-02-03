@@ -131,6 +131,7 @@ bool Interaction::connectSim(bool sw, int id, bool color) {
         return ZSS::ZSimModule::instance()->connectSim(color);
     } else {
 //        return ZSS::ZSimModule::instance()->disconnectSim(color); //fix a bug for Medusa out of Athena
+        return false;
     }
 }
 bool Interaction::controlMonitor(bool control) {
@@ -388,17 +389,19 @@ void Interaction::changeAddress(int team, int index){
 }
 QStringList Interaction::getAllAddress(){
     // return ZSS::ZActionModule::instance()->getAllAddress();
+    return QStringList();
 }
 QString Interaction::getRealAddress(int index){
     // return ZSS::ZActionModule::instance()->getRealAddress(index);
-};
+    return "";
+}
 
 void Interaction::updateTestScriptList(){
     QProcess process;
     process.start("./tools/scan_tool scripts playname");
     process.waitForFinished(-1);
-    QString stdout = process.readAllStandardOutput();
-    _test_script_show_name_list = (stdout).split('\n');
+    QString out = process.readAllStandardOutput();
+    _test_script_show_name_list = (out).split('\n');
     _test_script_show_name_list.removeAll(QString(""));
 }
 
@@ -406,7 +409,7 @@ void Interaction::updateRefConfigList(){
     QProcess process;
     process.start("./tools/scan_tool ref_configs");
     process.waitForFinished(-1);
-    QString stdout = process.readAllStandardOutput();
-    _ref_config_show_name_list = (stdout).split('\n');
+    QString out = process.readAllStandardOutput();
+    _ref_config_show_name_list = (out).split('\n');
     _ref_config_show_name_list.removeAll(QString(""));
 }
