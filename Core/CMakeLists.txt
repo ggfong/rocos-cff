@@ -121,3 +121,11 @@ include_directories(${PROJECT_INCLUDE_DIRS})
 add_executable(${TARGET_NAME} ${PROJECT_SOURCE})
 add_dependencies(${TARGET_NAME} proto_gen)
 target_link_libraries(${TARGET_NAME} PRIVATE ${libs})
+
+if(WIN32)
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_SOURCE_DIR}/3rdParty/lua/bin/lua5.1.dll"
+        $<TARGET_FILE_DIR:${TARGET_NAME}>
+    )
+endif()
