@@ -318,6 +318,7 @@ int Interaction::getTestScriptIndex(bool color){
     QString team = color ? "Yellow" : "Blue";
     QString res;
     ZSS::ZParamManager::instance()->loadParam(res,"ZAlert/"+team+"_TestScriptName");
+    res = res.replace("\r","");
     qDebug() << "getTestScriptIndex : " << res;
     int index = _test_script_show_name_list.indexOf(res);
     return index > 0 ? index : 0;
@@ -326,6 +327,7 @@ int Interaction::getRefConfigIndex(bool color){
     QString team = color ? "Yellow" : "Blue";
     QString res;
     ZSS::ZParamManager::instance()->loadParam(res,"ZAlert/"+team+"_RefConfigName");
+    res = res.replace("\r","");
     qDebug() << "getRefConfigIndex : " << res;
     int index = _ref_config_show_name_list.indexOf(res);
     return index > 0 ? index : 0;
@@ -401,7 +403,7 @@ void Interaction::updateTestScriptList(){
     process.start("python .\\tools\\scan_tool scripts playname");
     process.waitForFinished(-1);
     QString out = process.readAllStandardOutput();
-    _test_script_show_name_list = (out).split('\n');
+    _test_script_show_name_list = (out).replace("\r","").split('\n');
     _test_script_show_name_list.removeAll(QString(""));
 }
 
@@ -410,6 +412,6 @@ void Interaction::updateRefConfigList(){
     process.start("python .\\tools\\scan_tool ref_configs");
     process.waitForFinished(-1);
     QString out = process.readAllStandardOutput();
-    _ref_config_show_name_list = (out).split('\n');
+    _ref_config_show_name_list = (out).replace("\r","").split('\n');
     _ref_config_show_name_list.removeAll(QString(""));
 }
