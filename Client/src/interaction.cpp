@@ -402,7 +402,7 @@ QString Interaction::getRealAddress(int index){
 
 void Interaction::updateTestScriptList(){
     QProcess process;
-    process.start("python .\\tools\\scan_tool scripts playname");
+    process.start(".\\tools\\python\\python.exe .\\tools\\scan_tool scripts playname");
     process.waitForFinished(-1);
     QString out = process.readAllStandardOutput();
     _test_script_show_name_list = (out).replace("\r","").split('\n');
@@ -411,7 +411,7 @@ void Interaction::updateTestScriptList(){
 
 void Interaction::updateRefConfigList(){
     QProcess process;
-    process.start("python .\\tools\\scan_tool ref_configs");
+    process.start(".\\tools\\python\\python.exe .\\tools\\scan_tool ref_configs");
     process.waitForFinished(-1);
     QString out = process.readAllStandardOutput();
     _ref_config_show_name_list = (out).replace("\r","").split('\n');

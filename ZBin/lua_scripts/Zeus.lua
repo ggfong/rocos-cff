@@ -43,7 +43,7 @@ end
 
 -- init skill from tactic packages
 local tactic_packages = {}
-pfile = io.popen('python .\\tools\\scan_tool tactic_dir')
+pfile = io.popen('.\\tools\\python\\python.exe .\\tools\\scan_tool tactic_dir')
 for line in pfile:lines() do
     print("Found Tactic Package:", line)
     table.insert(tactic_packages, line)
