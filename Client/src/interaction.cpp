@@ -143,9 +143,11 @@ bool Interaction::controlMonitor(bool control) {
             }
             delete monitorProcess;
             monitorProcess = nullptr;
+            QProcess::execute("taskkill -im Core.exe -f");
             QTextStream(stdout) << "\n------------------------------------\nexit Monitor\n------------------------------------\n";
         }
     } else {
+        QProcess::execute("taskkill -im Core.exe -f");
         monitorProcess = new QProcess();
         QString name = "./ProcessAlive.bat";
         monitorProcess->start(name);
