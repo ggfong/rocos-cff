@@ -126,6 +126,8 @@ ZBin/Crazy2018
 ZBin/ballSpeedLog.txt
 ZBin/Core
 ZBin/Controller
+ZBin/Qml
+ZBin/plugins
 # python
 ZBin/__data
 ZBin/*/model
