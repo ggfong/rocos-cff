@@ -147,7 +147,7 @@ bool Interaction::controlMonitor(bool control) {
         }
     } else {
         monitorProcess = new QProcess();
-        QString name = "./ProcessAlive.exe";
+        QString name = "./ProcessAlive.bat";
         monitorProcess->start(name);
         QTextStream(stdout) << "\n------------------------------------\n" << "running " << name << "\n------------------------------------\n";
     }
@@ -398,7 +398,7 @@ QString Interaction::getRealAddress(int index){
 
 void Interaction::updateTestScriptList(){
     QProcess process;
-    process.start("./tools/scan_tool scripts playname");
+    process.start("python .\\tools\\scan_tool scripts playname");
     process.waitForFinished(-1);
     QString out = process.readAllStandardOutput();
     _test_script_show_name_list = (out).split('\n');
@@ -407,7 +407,7 @@ void Interaction::updateTestScriptList(){
 
 void Interaction::updateRefConfigList(){
     QProcess process;
-    process.start("./tools/scan_tool ref_configs");
+    process.start("python .\\tools\\scan_tool ref_configs");
     process.waitForFinished(-1);
     QString out = process.readAllStandardOutput();
     _ref_config_show_name_list = (out).split('\n');
