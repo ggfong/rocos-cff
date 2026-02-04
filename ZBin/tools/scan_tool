@@ -5,7 +5,7 @@ import os, re
 def get_tactic_packages(pack_path,ignore_file_path):
     tactic_packages = []
     tactic_ignore_packages = []
-    with open(ignore_file_path, "r") as f:
+    with open(ignore_file_path, "r", encoding='utf-8', errors='ignore') as f:
         for line in f:
             tactic_ignore_packages.append(line.strip())
     for pack in os.listdir(pack_path):
@@ -55,7 +55,7 @@ if __name__ == '__main__':
                     continue
                 # get file content and get 'name = "TestName"' line using regex
                 file_path = os.path.join(tactic_dir, file)
-                with open(file_path, "r") as f:
+                with open(file_path, "r", encoding='utf-8', errors='ignore') as f:
                     content = f.read().split('\n')
                     for line in content:
                         line = line.replace(' ','')
