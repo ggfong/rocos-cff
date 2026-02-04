@@ -596,8 +596,25 @@ void Field::initPainterPath() {
     painterPath.moveTo(::x(0), ::y(param_height / 2.0));
     painterPath.lineTo(::x(0), ::y(-param_height / 2.0));
     painterPath.addEllipse(::x(-param_centerCircleRadius), ::y(-param_centerCircleRadius), ::w(2 * param_centerCircleRadius), ::h(2 * param_centerCircleRadius));
-    painterPath.addRect(::x(-param_width / 2.0), ::y(-param_penaltyLength / 2.0), ::w(param_penaltyWidth), ::h(param_penaltyLength));
-    painterPath.addRect(::x(param_width / 2.0), ::y(-param_penaltyLength / 2.0), ::w(-param_penaltyWidth), ::h(param_penaltyLength));
+    
+    // Old penalty area
+    // painterPath.addRect(::x(-param_width / 2.0), ::y(-param_penaltyLength / 2.0), ::w(param_penaltyWidth), ::h(param_penaltyLength));
+    // painterPath.addRect(::x(param_width / 2.0), ::y(-param_penaltyLength / 2.0), ::w(-param_penaltyWidth), ::h(param_penaltyLength));
+    
+    // New penalty area
+    int defenseRadius = 800;
+    int defenseStretch = 375;
+    // Left penalty area
+    painterPath.arcMoveTo(::x(-param_width / 2.0 - defenseRadius), ::y(defenseStretch + defenseRadius), ::w(2 * defenseRadius), -::h(2 * defenseRadius), 90);
+    painterPath.arcTo(::x(-param_width / 2.0 - defenseRadius), ::y(defenseStretch + defenseRadius), ::w(2 * defenseRadius), -::h(2 * defenseRadius), 90, -90);
+    painterPath.lineTo(::x(-param_width / 2.0 + defenseRadius), ::y(-defenseStretch));
+    painterPath.arcTo(::x(-param_width / 2.0 - defenseRadius), ::y(-defenseStretch + defenseRadius), ::w(2 * defenseRadius), -::h(2 * defenseRadius), 0, -90);
+    // Right penalty area
+    painterPath.arcMoveTo(::x(param_width / 2.0 - defenseRadius), ::y(defenseStretch + defenseRadius), ::w(2 * defenseRadius), -::h(2 * defenseRadius), 90);
+    painterPath.arcTo(::x(param_width / 2.0 - defenseRadius), ::y(defenseStretch + defenseRadius), ::w(2 * defenseRadius), -::h(2 * defenseRadius), 90, 90);
+    painterPath.lineTo(::x(param_width / 2.0 - defenseRadius), ::y(-defenseStretch));
+    painterPath.arcTo(::x(param_width / 2.0 - defenseRadius), ::y(-defenseStretch + defenseRadius), ::w(2 * defenseRadius), -::h(2 * defenseRadius), 180, 90);
+    
     double penaltyPointWidth = 15;
     painterPath.addRect(::x(-param_width/6.0-penaltyPointWidth),::y(0-penaltyPointWidth),::w(2*penaltyPointWidth),::h(2*penaltyPointWidth));
     painterPath.addRect(::x(param_width/6.0-penaltyPointWidth),::y(0-penaltyPointWidth),::w(2*penaltyPointWidth),::h(2*penaltyPointWidth));
